@@ -116,3 +116,11 @@ noremap H N
 
 " set j as e for jump to end of word
 noremap j e
+
+
+" install plugins by vim-plug
+call plug#begin()
+
+Plug 'https://github.com/nelstrom/vim-visual-star-search'
+
+call plug#end()
