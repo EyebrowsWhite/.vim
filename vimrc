@@ -122,5 +122,7 @@ noremap j e
 call plug#begin()
 
 Plug 'https://github.com/nelstrom/vim-visual-star-search'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
