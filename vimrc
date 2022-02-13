@@ -11,10 +11,10 @@ filetype plugin indent on
 set mouse=a
 set encoding=utf-8
 
-set clipboard=unnamed
+" set clipboard=unnamed
 
-" Prevent incorrect backgroung rendering
-" let &t_ut=''
+" Prevent incorrect background rendering
+let &t_ut=''
 
 " ===
 " === Main code display
@@ -44,11 +44,22 @@ set list
 set listchars=tab:▸\ ,trail:▫
 set scrolloff=5
 
+
+" Better backspace
+set backspace=indent,eol,start
+
+set foldmethod=indent
+set foldlevel=99
+
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 " ===
 " === Status/command bar
 " ===
 set laststatus=2
-" set autochdir
+set autochdir
 set showcmd
 " set formatoptions-=tc
 
@@ -66,6 +77,11 @@ set ignorecase
 set smartcase
 
 " ===
+" === Restore Cursor Position
+" ===
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" ===
 " === Basic Mappings
 " ===
 
@@ -73,8 +89,11 @@ set smartcase
 let mapleader=" "
 
 " Save & quit
-" map Q :q<CR>
+map Q :q<CR>
 map S :w<CR>
+
+" Open the vimrc file anytime
+map <LEADER>rc :e ~/.vim/vimrc<CR>
 
 " Undo operations
 noremap l u
@@ -161,7 +180,7 @@ map tmi :+tabmove<CR>
 " install plugins by vim-plug
 call plug#begin()
 
-Plug 'https://github.com/nelstrom/vim-visual-star-search'
+Plug 'nelstrom/vim-visual-star-search'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
