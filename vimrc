@@ -1,4 +1,12 @@
-" my vimrc derived from https://github.com/theniceboy/.vim
+" ===
+" === Auto load for first time uses
+" === install vim-plug and plugins
+" ===
+if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
+  silent !curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs
+        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
 " ===
 " === System
@@ -8,33 +16,26 @@ filetype on
 filetype indent on
 filetype plugin on
 filetype plugin indent on
-set mouse=a
 set encoding=utf-8
-
-" set clipboard=unnamed
+" set mouse=a
 
 " Prevent incorrect background rendering
 let &t_ut=''
+set autochdir
 
 " ===
 " === Main code display
 " ===
 set number
-set relativenumber
+set norelativenumber
 set ruler
 set cursorline
 syntax enable
 syntax on
-" theme configuration
-set t_Co=256
-let g:solarized_termcolors=256
-set background=dark
-colorscheme solarized
 
 " ===
 " === Editor behavior
 " ===
-
 " Better tab
 set expandtab
 set tabstop=2
@@ -44,13 +45,11 @@ set list
 set listchars=tab:▸\ ,trail:▫
 set scrolloff=5
 
-
 " Better backspace
 set backspace=indent,eol,start
-
 set foldmethod=indent
 set foldlevel=99
-
+" Better cursor
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 let &t_EI = "\<Esc>]50;CursorShape=0\x7"
@@ -59,19 +58,15 @@ let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 " === Status/command bar
 " ===
 set laststatus=2
-set autochdir
+set noshowmode
 set showcmd
 " set formatoptions-=tc
-
 " Show command autocomplete
 set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
 set wildmenu
-" show a navigable menu for tab completion
-set wildmode=longest,list,full
-
+set wildmode=full
 " Searching options
 set hlsearch
-exec "nohlsearch"
 set incsearch
 set ignorecase
 set smartcase
@@ -84,30 +79,22 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 " ===
 " === Basic Mappings
 " ===
-
 " Set <LEADER> as <SPACE>
 let mapleader=" "
-
 " Save & quit
 map Q :q<CR>
 map S :w<CR>
-
-" Open the vimrc file anytime
-map <LEADER>rc :e ~/.vim/vimrc<CR>
-
 " Undo operations
 noremap l u
-" Undo in Insert mode
-inoremap <C-l> <C-u>
-
 " Insert Key
 noremap k i
 noremap K I
+" Copy to system clipboard
+vnoremap Y "+y
 
 " ===
 " === Cursor Movement
 " ===
-"
 " New cursor movement (the default arrow keys are used for resizing windows)
 "     ^
 "     u
@@ -118,47 +105,46 @@ noremap u k
 noremap n h
 noremap e j
 noremap i l
-
-" U/E keys for 10 times u/e (faster navigation)
-noremap U 10k
-noremap E 10j
-
-" Faster in-line navigation
-" noremap W 5w
-" noremap B 5b
-
-" N key: go to the start of the line
-noremap N 0
+" U/E keys for 5 times u/e (faster navigation)
+noremap U 5k
+noremap E 5j
+"c-e for ctrl down; c-d for scroll down
+nnoremap <c-e> <c-d>
+nnoremap <c-d> <c-e>
 " I key: go to the end of the line
-noremap I $
-
+"noremap I $
 " set h as n for search next, same as H as N
 noremap h nzz
 noremap H Nzz
-noremap <LEADER><CR> :nohlsearch<CR>
-
 " set j as e for jump to end of word
 noremap j e
+" set L as High, N as Middle, M as Low
+noremap L H
+noremap N M
+noremap M L
 
 " ===
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-map <LEADER>w <C-w>w
 map <LEADER>u <C-w>k
 map <LEADER>e <C-w>j
 map <LEADER>n <C-w>h
 map <LEADER>i <C-w>l
-
 " Disabling the default s key
 noremap s <nop>
-
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
 map su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
 map se :set splitbelow<CR>:split<CR>
 map sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
 map si :set splitright<CR>:vsplit<CR>
-
+" Place the two screens up and down
+noremap sh <C-w>t<C-w>K
+" Place the two screens side by side
+noremap sv <C-w>t<C-w>H
+" Reverse screens
+noremap srh <C-w>b<C-w>K
+noremap srv <C-w>b<C-w>H
 " Resize splits with arrow keys
 map <up> :res +5<CR>
 map <down> :res -5<CR>
@@ -170,6 +156,8 @@ map <right> :vertical resize+5<CR>
 " ===
 " Create a new tab with tu
 map tu :tabe<CR>
+" change curruent window to new tab
+map te <C-w>T
 " Move around tabs with tn and ti
 map tn :-tabnext<CR>
 map ti :+tabnext<CR>
@@ -177,11 +165,15 @@ map ti :+tabnext<CR>
 map tmn :-tabmove<CR>
 map tmi :+tabmove<CR>
 
+" ===
+" === Terminal in vim
+" ===
+map <LEADER>t :terminal<CR>
+tnoremap <Esc> <C-\><C-n>
+
 " install plugins by vim-plug
 call plug#begin()
 
 Plug 'nelstrom/vim-visual-star-search'
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
 
 call plug#end()
