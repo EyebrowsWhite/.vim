@@ -1,13 +1,4 @@
-" ===
-" === Auto load for first time uses
-" === install vim-plug and plugins
-" ===
-if empty(glob($HOME.'/.config/nvim/autoload/plug.vim'))
-  silent !curl -fLo $HOME/.config/nvim/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
+" ======VIM & NEOVIM===== start =====
 " ===
 " === System
 " ===
@@ -170,10 +161,22 @@ map tmi :+tabmove<CR>
 " ===
 map <LEADER>t :terminal<CR>
 tnoremap <Esc> <C-\><C-n>
+" ======VIM & NEOVIM===== end =====
+
+" ===
+" === VIM CONFIG ===
+" ===
+" theme configuration
+set t_Co=256
+let g:solarized_termcolors=256
+set background=dark
+colorscheme solarized
 
 " install plugins by vim-plug
 call plug#begin()
 
 Plug 'nelstrom/vim-visual-star-search'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
