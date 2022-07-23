@@ -99,11 +99,8 @@ noremap i l
 " U/E keys for 5 times u/e (faster navigation)
 noremap U 5k
 noremap E 5j
-"c-e for ctrl down; c-d for scroll down
-nnoremap <c-e> <c-d>
-nnoremap <c-d> <c-e>
 " I key: go to the end of the line
-"noremap I $
+noremap I o<Esc>
 " set h as n for search next, same as H as N
 noremap h nzz
 noremap H Nzz
