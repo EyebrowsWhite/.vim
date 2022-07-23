@@ -1,4 +1,3 @@
-" ======VIM & NEOVIM===== start =====
 " ===
 " === System
 " ===
@@ -8,7 +7,7 @@ filetype indent on
 filetype plugin on
 filetype plugin indent on
 set encoding=utf-8
-" set mouse=a
+set mouse=a
 
 " Prevent incorrect background rendering
 let &t_ut=''
@@ -18,9 +17,10 @@ set autochdir
 " === Main code display
 " ===
 set number
-set norelativenumber
+set relativenumber
 set ruler
 set cursorline
+set cursorcolumn
 syntax enable
 syntax on
 
@@ -67,6 +67,8 @@ set smartcase
 " ===
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
+
+" ========== CORE MAPPINGS ==========
 " ===
 " === Basic Mappings
 " ===
@@ -110,6 +112,7 @@ noremap j e
 noremap L H
 noremap N M
 noremap M L
+" ========== CORE MAPPINGS ==========
 
 " ===
 " === Window management
@@ -158,10 +161,10 @@ map tmi :+tabmove<CR>
 " ===
 map <LEADER>t :terminal<CR>
 tnoremap <Esc> <C-\><C-n>
-" ======VIM & NEOVIM===== end =====
+
 
 " ===
-" === VIM CONFIG ===
+" === Theme and Plugin
 " ===
 " theme configuration
 set t_Co=256
